@@ -4,6 +4,7 @@ import Button from '../Button/Button';
 import cn from 'classnames';
 import { INITIAL_STATE, formReducer } from './JournalForm.state';
 import Input from '../Input/Input';
+import { UserContext } from '../../context/user.context';
 
 function JournalForm({ onSubmit }) {
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
@@ -57,7 +58,10 @@ function JournalForm({ onSubmit }) {
 	};
 
 	return (
+		<UserContext.Consumer>
+			{(context) => (
 		<form className={styles['journal-form']} onSubmit={addJournalItem}>
+			{context.userId}
 			<div>
 				<Input type='text' name='title' ref={titleRef} onChange={onChange} value={values.title} isValid={!isValid.title}/>
 			</div>
@@ -80,7 +84,8 @@ function JournalForm({ onSubmit }) {
 				[styles['invalid']]: !isValid.post
 			})}></textarea>
 			<Button text="Сохранить" />
-		</form>
+		</form>)}
+		</UserContext.Consumer>
 	);
 }
 

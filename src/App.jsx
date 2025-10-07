@@ -7,6 +7,7 @@ import Body from './layouts/Body/Body';
 import LeftPanel from './layouts/LeftPanel/LeftPanel';
 import './App.css';
 import { useLocalStorage } from './hooks/use-localstorage.hook';
+import { UserContext } from './context/user.context';
 
 function mapItems(items) {
 	if (!items) {
