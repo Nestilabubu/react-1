@@ -6,7 +6,7 @@ import { INITIAL_STATE, formReducer } from './JournalForm.state';
 import Input from '../Input/Input';
 import { UserContext } from '../../context/user.context';
 
-function JournalForm({ onSubmit }) {
+function JournalForm({ onSubmit , data}) {
 	const [formState, dispatchForm] = useReducer(formReducer, INITIAL_STATE);
 	const { isValid, isFormReadyToSubmit, values } = formState;
 	const titleRef = useRef();
@@ -28,6 +28,7 @@ function JournalForm({ onSubmit }) {
 		}
 	};
 
+	
 	useEffect(() => {
 		let timerId;
 		if (!isValid.date || !isValid.post || !isValid.title) {
@@ -45,12 +46,17 @@ function JournalForm({ onSubmit }) {
 		if (isFormReadyToSubmit) {
 			onSubmit(values);
 			dispatchForm({ type: 'CLEAR' });
+			dispatchForm({ type: 'SET_VALUE', payload: { userId }});
 		}
-	}, [isFormReadyToSubmit, values, onSubmit]);
+	}, [isFormReadyToSubmit, values, onSubmit, userId]);
 
 	useEffect(() => {
 		dispatchForm({ type: 'SET_VALUE', payload: { userId }});
 	}, [userId]);
+
+	useEffect(() => {
+		dispatchForm({ type: 'SET_VALUE', payload: { ...data }});
+	}, [data]);
 	
 	const onChange = (e) => {
 		dispatchForm({ type: 'SET_VALUE', payload: { [e.target.name]: e.target.value }});
@@ -72,7 +78,7 @@ function JournalForm({ onSubmit }) {
 					<img src='/calendar.svg' alt='Иконка календаря'/>
 					<span>Дата</span>
 				</label>
-				<Input type='date' name='date' ref={dateRef} onChange={onChange} value={values.data}  id="date" isValid={!isValid.date}/>
+				<Input type='date' name='date' ref={dateRef} onChange={onChange} value={values.data ? new Date(values.date).toISOString().slice(0, 10) : ''}  id="date" isValid={!isValid.date}/>
 			</div>
 			<div className={styles['form-row']}>
 				<label htmlFor="tag" className={styles['form-label']}>
