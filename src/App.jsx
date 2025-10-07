@@ -10,6 +10,7 @@ import LeftPanel from './layouts/LeftPanel/LeftPanel';
 import './App.css';
 import { useState } from 'react';
 const INITIAL_DATA = [
+	/*
 	{
 		id:1,
 		title: 'Подготовка к обновлению курсов',
@@ -21,7 +22,7 @@ const INITIAL_DATA = [
 		title: 'Поход в годы',
 		text: 'Думал, что очень много времени',
 		date: new Date()
-	}
+	}*/
 ];
 
 function App() {
@@ -48,17 +49,7 @@ function App() {
 			<LeftPanel>
 				<Header/>
 				<JournalAddButton/>
-				<JournalList>
-					{items.sort(sortItems).map(el => (
-						<CardButton key={el.id}>
-							<JournalItem 
-								title={el.title}
-								text={el.text}
-								date={el.date}
-							/>
-						</CardButton>
-					))}
-				</JournalList>
+				<JournalList items={items} />
 			</LeftPanel>
 			<Body>
 				<JournalForm onSubmit={addItem}/>
