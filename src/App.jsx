@@ -8,25 +8,20 @@ import JournalForm from './components/JournalForm/JournalForm';
 import Body from './layouts/Body/Body';
 import LeftPanel from './layouts/LeftPanel/LeftPanel';
 import './App.css';
-import { useState } from 'react';
-const INITIAL_DATA = [
-	/*
-	{
-		id:1,
-		title: 'Подготовка к обновлению курсов',
-		text: 'Горные походы открывают удивительные природные ландшафт',
-		date: new Date()
-	},
-	{
-		id:2,
-		title: 'Поход в годы',
-		text: 'Думал, что очень много времени',
-		date: new Date()
-	}*/
-];
+import { useEffect,useState } from 'react';
 
 function App() {
-	const [items, setItems] = useState(INITIAL_DATA);
+	const [items, setItems] = useState([]);
+
+	useEffect(() => {
+		const data = JSON.parse(localStorage.getItem('data'));
+		if (data) {
+			setItems(data.map(item => ({
+				...item,
+				date: new Date(item.date)
+			})));
+		}
+	}, []);
 
 	const addItem = item => {
 		setItems(oldItems => [...oldItems, {
