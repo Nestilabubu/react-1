@@ -4,7 +4,7 @@ import { UserContext } from '../../context/user.context';
 
 function SelectUser() {
 	const { userId, setUserId } = useContext(UserContext);
-	
+
 	const changeUser = (e) => {
 		setUserId(Number(e.target.value));
 	};
